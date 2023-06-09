@@ -3,8 +3,6 @@
 import argparse
 import subprocess
 from urllib.parse import urlparse
-# import os
-# os.system('paplay "/home/nikita/programs/Windows Notify.wav"')
 
 roadmap = {
 	"_youtube.com": ["/usr/bin/smplayer"],
@@ -50,5 +48,3 @@ open_with = roadmap_url(domain)
 # and just start binary!:)
 print(open_with+[url])
 subprocess.Popen(open_with+[url]) # +unknown (?)
-
-#input(">>> ")

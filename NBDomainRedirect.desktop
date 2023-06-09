@@ -1,11 +1,11 @@
 [Desktop Entry]
 Categories=Network;WebBrowser;
-Comment=Доступ в Интернет
+Comment=Allows you to set the desired application for a specific domain opening
 Exec=/home/nikita/.local/bin/domainredirect %U
-GenericName=Веб-браузер
+GenericName=Web-browser
 Icon=browser
-MimeType=text/html;x-scheme-handler/http;x-scheme-handler/https;
-Name=DomainRedirect
+MimeType=x-scheme-handler/http;x-scheme-handler/https;
+Name=NB DomainRedirect
 Path=
 StartupNotify=true
 Terminal=false
