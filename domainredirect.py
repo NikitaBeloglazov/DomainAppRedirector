@@ -8,7 +8,8 @@ roadmap = {
 	"_youtube.com": ["/usr/bin/smplayer"],
 	"youtu.be":     ["/usr/bin/smplayer"],
 	"rest":         ["/usr/bin/vivaldi", "--force-dark-mode"],
-}
+} # - = - = - = - = ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ = - = -
+# u can specify prescribed special flags for some applications
 
 # PARSE FLAGS. Extract the URL and ignore the rest of the flags.
 parser = argparse.ArgumentParser()
@@ -18,7 +19,7 @@ args, unknown = parser.parse_known_args()
 url = args.url
 
 print(f'URL: {url}')
-print(unknown)
+print(f'Unused flags: {str(unknown)}')
 
 # Parse URL
 urlparse_result = urlparse(url)
@@ -29,15 +30,22 @@ domain = urlparse_result[1] # extract netloc=
 if domain[0:4] == "www.":
 	domain = domain[4:]
 
-print(domain)
+print(f"Detected domain: {domain}")
 
-def roadmap_url(url):
-	if domain == "www.youtube.com" or domain == "youtube.com" and "_youtube.com" in roadmap:
+def roadmap_url(domain):
+	"""
+	Specifically sets specific rules for domains and distributes automated ones via roadmap.
+	Placed in a function for convenience
+	"""
+
+	# - = - = FILTER (www.)youtube.com/(watch|playlist) ONLY. For example youtube.com/user redirects in browser.
+	if domain in ("www.youtube.com", "youtube.com") and "_youtube.com" in roadmap:
 		path = urlparse_result[2] # extract path=
-		if path == "/watch" or path == "/playlist":
+		if path in ("/watch", "/playlist") or path[0:7] == "/shorts":
 			return roadmap["_youtube.com"]
 		del path
 		# else: pass
+	# - = - = - = - = - = - = - = - = - = - = - = 
 
 	if domain in roadmap:
 		return roadmap[domain]
@@ -46,5 +54,5 @@ def roadmap_url(url):
 open_with = roadmap_url(domain)
 
 # and just start binary!:)
-print(open_with+[url])
+print(f"Launch Options: {str(open_with+[url])}")
 subprocess.Popen(open_with+[url]) # +unknown (?)
